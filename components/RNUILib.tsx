@@ -27,6 +27,8 @@ const options = [
   {label: 'Perl', value: 'perl'},
 ];
 
+const RENDER_COMPONENTS_COUNT = 20;
+
 export const RNUILib = () => {
   const [theme, setTheme] = React.useState('theme1');
   const [option, setOption] = React.useState('');
@@ -116,9 +118,10 @@ export const RNUILib = () => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             contentContainerStyle={styles.form}>
-            {[...Array(20)].map(() => {
+            {[...Array(RENDER_COMPONENTS_COUNT)].map((_, index) => {
               return (
                 <TextField
+                  key={index}
                   placeholder={'Product Title'}
                   floatingPlaceholder
                   showCharCounter
@@ -127,17 +130,21 @@ export const RNUILib = () => {
               );
             })}
 
-            {[...Array(20)].map(() => {
-              return <Checkbox value={true} marginT-10 />;
+            {[...Array(RENDER_COMPONENTS_COUNT)].map((_, index) => {
+              return <Checkbox key={index} value={true} marginT-10 />;
             })}
 
-            {[...Array(20)].map(() => {
-              return <Switch value={true} style={styles.switch} />;
+            {[...Array(RENDER_COMPONENTS_COUNT)].map((_, index) => {
+              return <Switch key={index} value={true} style={styles.switch} />;
             })}
 
-            {[...Array(20)].map(() => {
+            {[...Array(RENDER_COMPONENTS_COUNT)].map((_, index) => {
               return (
-                <Picker label="Picker" placeholder="Pick a Language" marginT-10>
+                <Picker
+                  key={index}
+                  label="Picker"
+                  placeholder="Pick a Language"
+                  marginT-10>
                   {options.map(item => (
                     <Picker.Item
                       key={item.value}
