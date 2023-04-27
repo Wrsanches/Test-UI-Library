@@ -34,7 +34,9 @@ export const RNUILib = () => {
   const [option, setOption] = React.useState('');
   const [data, setData] = React.useState([]);
 
-  getProducts();
+  useEffect(() => {
+    getProducts();
+  }, []);
 
   useEffect(() => {
     switch (theme) {
