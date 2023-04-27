@@ -34,9 +34,9 @@ export const RNUILib = () => {
   const [option, setOption] = React.useState('');
   const [data, setData] = React.useState([]);
 
-  useEffect(() => {
-    getProducts();
+  getProducts();
 
+  useEffect(() => {
     switch (theme) {
       case 'theme1':
         Colors.loadColors({
@@ -59,7 +59,7 @@ export const RNUILib = () => {
     }
   }, [theme]);
 
-  const getProducts = async () => {
+  async function getProducts() {
     try {
       const response = await fetch(
         'https://jsonplaceholder.typicode.com/posts',
@@ -69,7 +69,7 @@ export const RNUILib = () => {
     } catch (error) {
       console.error(error);
     }
-  };
+  }
 
   return (
     <View flex-1>
