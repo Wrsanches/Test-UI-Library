@@ -1,6 +1,31 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, View} from 'react-native';
-import {Button, ThemeProvider, createTheme, useTheme} from '@rneui/themed';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {
+  Button,
+  Dialog,
+  CheckBox,
+  ThemeProvider,
+  Input,
+  Switch,
+  createTheme,
+  useTheme,
+} from '@rneui/themed';
+
+type Product = {
+  id: number;
+  title: string;
+  body: string;
+};
+
+const options = [
+  {label: 'JavaScript', value: 'js'},
+  {label: 'Java', value: 'java'},
+  {label: 'Python', value: 'python'},
+  {label: 'C++', value: 'c++', disabled: true},
+  {label: 'Perl', value: 'perl'},
+];
+
+const RENDER_COMPONENTS_COUNT = 20;
 
 // we can specify our basic custom theme here
 const rneuiTheme = createTheme({});
@@ -69,6 +94,10 @@ const ElementsComponentWithProvider = () => {
     backgroundColor: themeFromHook.colors.primary,
   };
 
+  const dynamicContentContainerStyles = {
+    backgroundColor: themeFromHook.colors.secondary,
+  };
+
   return (
     <ThemeProvider theme={rneuiTheme}>
       <View style={[styles.container, dynamicContainerStyles]}>
@@ -83,9 +112,49 @@ const ElementsComponentWithProvider = () => {
           <Button title="None" onPress={() => setOption('')} />
         </View>
 
-        {data && option === 'list' && <></>}
+        <View style={[styles.contentContainer, dynamicContentContainerStyles]}>
+          {data && option === 'list' && <></>}
 
-        {option === 'form' && <></>}
+          {option === 'form' && (
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={styles.form}>
+              {[...Array(RENDER_COMPONENTS_COUNT)].map((_, index) => {
+                return (
+                  <Input
+                    key={index}
+                    placeholder={'Product Title'}
+                    maxLength={30}
+                  />
+                );
+              })}
+
+              {[...Array(RENDER_COMPONENTS_COUNT)].map((_, index) => {
+                return (
+                  <CheckBox
+                    key={index}
+                    checked={true}
+                    style={styles.checkbox}
+                  />
+                );
+              })}
+
+              {[...Array(RENDER_COMPONENTS_COUNT)].map((_, index) => {
+                return (
+                  <Switch key={index} value={true} style={styles.switch} />
+                );
+              })}
+
+              {/* TODO: add a picker equivalent */}
+
+              <Button
+                title="Submit"
+                onPress={() => console.log('TODO: open dialog')}
+                style={styles.submitButton}
+              />
+            </ScrollView>
+          )}
+        </View>
       </View>
     </ThemeProvider>
   );
@@ -98,5 +167,26 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    padding: 10,
+  },
+
+  contentContainer: {
+    flex: 1,
+    paddingTop: 20,
+  },
+
+  form: {
+    paddingLeft: 20,
+    paddingRight: 20,
+    paddingBottom: 20,
+  },
+  checkbox: {
+    marginTop: 10,
+  },
+  switch: {
+    marginTop: 10,
+  },
+  submitButton: {
+    marginTop: 10,
   },
 });
