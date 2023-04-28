@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {Alert, ScrollView, StyleSheet, View} from 'react-native';
 import {
   Button,
-  Dialog,
+  BottomSheet,
   CheckBox,
+  ListItem,
   ThemeProvider,
   Input,
   Switch,
@@ -42,6 +43,8 @@ const ElementsComponentWithProvider = () => {
   const [theme, setTheme] = React.useState('theme1');
   const [option, setOption] = React.useState('');
   const [data, setData] = React.useState([]);
+
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
 
   const {updateTheme, theme: themeFromHook} = useTheme();
 
@@ -145,11 +148,34 @@ const ElementsComponentWithProvider = () => {
                 );
               })}
 
-              {/* TODO: add a picker equivalent */}
+              <BottomSheet
+                isVisible={isModalVisible}
+                onBackdropPress={() => setIsModalVisible(false)}>
+                {options.map(item => (
+                  <ListItem>
+                    <Button
+                      title={item.label}
+                      onPress={() => setIsModalVisible(false)}
+                      type="clear"
+                    />
+                  </ListItem>
+                ))}
+              </BottomSheet>
+
+              {[...Array(RENDER_COMPONENTS_COUNT)].map((_, index) => {
+                return (
+                  <Button
+                    key={index}
+                    type="clear"
+                    title="Pick a language"
+                    onPress={() => setIsModalVisible(true)}
+                  />
+                );
+              })}
 
               <Button
                 title="Submit"
-                onPress={() => console.log('TODO: open dialog')}
+                onPress={() => Alert.alert('Sent')}
                 style={styles.submitButton}
               />
             </ScrollView>
