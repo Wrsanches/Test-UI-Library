@@ -4,10 +4,12 @@ import {
   Button,
   BottomSheet,
   CheckBox,
+  Image,
   ListItem,
   ThemeProvider,
   Input,
   Switch,
+  Text,
   createTheme,
   useTheme,
 } from '@rneui/themed';
@@ -116,7 +118,24 @@ const ElementsComponentWithProvider = () => {
         </View>
 
         <View style={[styles.contentContainer, dynamicContentContainerStyles]}>
-          {data && option === 'list' && <></>}
+          {data && option === 'list' && (
+            <ScrollView showsVerticalScrollIndicator={false}>
+              {data.map((item: Product) => (
+                <ListItem key={item.id}>
+                  <Image
+                    source={{
+                      uri: 'https://i.dummyjson.com/data/products/22/1.jpg',
+                    }}
+                    style={styles.image}
+                  />
+                  <View flex-1 marginL-10 style={styles.listContent}>
+                    <Text>{item.title}</Text>
+                    <Text style={styles.listBody}>{item.body}</Text>
+                  </View>
+                </ListItem>
+              ))}
+            </ScrollView>
+          )}
 
           {option === 'form' && (
             <ScrollView
@@ -199,6 +218,18 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     paddingTop: 20,
+  },
+
+  listContent: {
+    flex: 1,
+    marginLeft: 10,
+  },
+  listBody: {
+    marginTop: 5,
+  },
+  image: {
+    width: 80,
+    height: 80,
   },
 
   form: {
